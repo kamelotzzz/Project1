@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/Create.css">
+    <title>Document</title>
+</head>
+
+<body style="background-color: #515151;">
+    <div style="width: 80%;height: auto;;margin: 0 auto; margin-top: 20px;margin-bottom: 20px;">
+        <div style="margin-right:0px;width: 200px;margin-right:10px">
+            <button class="btn btn-primary" id="btn-logout">Logout</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewModal" data-whatever="@getbootstrap">Add New</button>
+
+        </div>
+    </div>
+
+    <table class="table container" id="table" style="background-color: white;box-sizing: border-box; width: 80%">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Role</th>
+                <th scope="col">Usename</th>
+                <th scope="col">Password</th>
+                <th scope="col">Email</th>
+                <th scope="col">Age</th>
+                <th scope="col">School</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody class="tbody-data">
+
+        </tbody>
+    </table>
+
+    <div style="width: 80%;margin: 0 auto; margin-top: 20px;box-sizing: border-box;">
+        <div>
+            <ul>
+                <li style="list-style: none;list-style-type: none;float: left;">
+                    <span style="color:#008CBA">Trang</span>
+                </li>
+                <li style="list-style: none;list-style-type: none;float: left;">
+                    <ul class="pageIndex">
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="addnewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add New Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Username:</label>
+                            <input type="text" class="form-control" id="nUsername">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Password:</label>
+                            <input type="password" class="form-control" id="nPassword">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Role:</label>
+                            <select class="form-control" id="nRole">
+                              <option>admin</option>
+                              <option>user</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Email:</label>
+                            <input type="email" class="form-control" id="nEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Age:</label>
+                            <input type="number" class="form-control" id="nAge">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">School:</label>
+                            <input type="text" class="form-control" id="nSchool">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btn-addnew">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body-1">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function() {
+        getData()
+        pageIndex()
+    })
+
+
+    $("#btn-logout").click(function() {
+        $.ajax({
+            url: '/Account/logout',
+            type: 'GET',
+        }).then(function(data) {
+            // console.log(data);
+            window.location.href = "/Account/gd-login"
+        })
+    })
+
+    $('#btn-addnew').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+    })
+    $('#btn-addnew').click(function() {
+        var username = $('#nUsername').val()
+        var password = $('#nPassword').val()
+        var role = $('#nRole').val()
+        var email = $('#nEmail').val()
+        var age = $('#nAge').val()
+        var school = $('#nSchool').val()
+
+
+
+    })
+
+    function pageIndex() {
+        $.ajax({
+            url: '/Account/getAll',
+            type: 'GET',
+        }).then(function(data) {
+            var total = data.length;
+            var pageNum = Math.ceil(total / 5);
+            for (var i = 1; i <= pageNum; i++) {
+                $(".pageIndex").append('<li class="" value="' + i + '" id="page' + i + '" onClick="getPageIndex(' + i + ')"><a href="#">' + i + '</a></li>');
+            }
+            $(".pageIndex li:first-child").addClass('active');
+            // // $(".pageIndex li:nth-child(2)").addClass('active');
+        })
+    }
+
+    function getPageIndex(i) {
+        // var page = $(".pageIndex li.active").val()
+        var page = i
+        console.log(page);
+        $(".pageIndex li").removeClass('active');
+        $("#page" + i).addClass('active');
+        $(".tbody-data").html('')
+        $.ajax({
+            url: '/Account/getPage/' + page,
+            type: 'GET',
+        }).then(function(data) {
+            getAll(data)
+        })
+    }
+
+    function getData() {
+        $.ajax({
+            url: '/Account/getPage1',
+            type: 'GET',
+        }).then(function(data) {
+            getAll(data)
+        })
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function getAll(data) {
+        console.log(data);
+        for (var i = 0; i < data.length; i++) {
+            var template = `    
+                <tr class="tr-data" >
+                    <td scope="col">
+                        <span class="span-${data[i]._id}" id="sRole-${data[i]._id}">${data[i].role}</span>
+                    </td>
+                    <td scope="col">
+                        <span class="span-${data[i]._id}" id="sUser-${data[i]._id}">${data[i].username}</span>
+                    </td>           
+                    <td scope="col">
+                        <span class="span-${data[i]._id}" id="sPass-${data[i]._id}">${data[i].password}</span>
+                    </td>
+                    <td scope="col">
+                        <span class="span-${data[i]._id}" id="sEmail-${data[i]._id}">${data[i].email}</span>
+                    </td>
+                    <td scope="col">
+                        <span class="span-${data[i]._id}" id="sAge-${data[i]._id}">${data[i].age}</span>
+                    </td>
+                    <td scope="col">
+                        <span class="span-${data[i]._id}" id="sSchool-${data[i]._id}">${data[i].school}</span>
+                    </td>
+                    <td scope="col">
+                        <button type="button" class="btn-editData" id="btnEditing-${data[i]._id}"  data-toggle="modal" data-target="#exampleModal" data-id="${data[i]._id}">Edit</button>
+                    </td>
+                    <td scope="col">
+                        <button class="btn-deleteData" id="${data[i]._id}" data-idDelete="${data[i]._id}" type="button" onclick="btnDeleteData('${data[i]._id}')">Delete</button>
+                    </td>
+                </tr>
+                `
+            $('.tbody-data').append(template)
+        }
+    }
+
+    function getDataItem(id) {
+        $.ajax({
+            url: 'getItem/' + id,
+            type: 'GET',
+        }).then(function(data) {
+            console.log(data);
+
+            var templateModal =
+                `
+                <div class="modal-body">
+                <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Username:</label>
+                            <input type="text" class="form-control" id="iUser-${data._id}" value="${data.username}">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Password:</label>
+                            <input type="text" class="form-control" id="iPass-${data._id}" value="${data.password}">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Email:</label>
+                            <input type="text" class="form-control" id="iEmail-${data._id}" value="${data.email}">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Age:</label>
+                            <input type="text" class="form-control" id="iAge-${data._id}" value="${data.age}">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">School:</label>
+                            <input type="text" class="form-control" id="iSchool-${data._id}" value="${data.school}">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-id="${data._id}" onclick="btnSaveData('${data._id}')">Save message</button>
+                </div>
+                    `
+            $('.modal-body-1').append(templateModal);
+        })
+    }
+
+
+    $('#exampleModal').on('show.bs.modal', function(event) {
+        $('.modal-body-1').html('')
+        var button = $(event.relatedTarget) // Button that triggered the modal
+
+        var id = button.data('id') // Extract info from data-* attributes
+        console.log(id);
+        getDataItem(id)
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            // var modal = $(this)
+            // modal.find('.modal-title').text('New message to ' + recipient)
+            // modal.find('.modal-body input').val(recipient)
+    })
+
+    function btnDeleteData(id) {
+        var page = $(".pageIndex li.active").val()
+        console.log(page);
+        if (confirm("Bạn chắc chắn muốn xóa dữ liệu?") === true) {
+            // deleteData(id)
+            $.ajax({
+                url: "/Account/user/" + id,
+                type: "DELETE",
+            })
+        }
+        getPageIndex(page)
+    }
+
+
+    function saveData(id, username, password, email, age, school) {
+        $.ajax({
+            url: "/Account/user/" + id,
+            type: "PUT",
+            data: {
+                username: username,
+                password: password,
+                email: email,
+                age: age,
+                school: school,
+            },
+            success: function(data) {
+                alert("Edit du lieu thanh cong")
+            }
+        }).then(function() {
+            var page = $(".pageIndex li.active").val()
+            getPageIndex(page)
+
+        })
+    }
+
+    function btnSaveData(id) {
+        var page = $(".pageIndex li.active").val()
+        var username = $("#iUser-" + id).val();
+        var password = $("#iPass-" + id).val();
+        var email = $("#iEmail-" + id).val();
+        var age = $("#iAge-" + id).val();
+        var school = $("#iSchool-" + id).val();
+        // console.log(school);
+        if (confirm("Bạn chắc chắn muốn sửa dữ liệu?") === true) {
+            if (validateForm(username, password, email, age)) {
+                saveData(id, username, password, email, age, school)
+                $('#exampleModal').modal('hide')
+            }
+        } else {
+            getPageIndex(page)
+        }
+    }
+
+    function validateForm(user, pass, email, age) {
+        //chu + so + space
+        if (user == "") {
+            alert("hãy nhập tài khoản")
+            return false;
+        } else if (/^[a-zA-Z0-9]*$/.test(user) == false) {
+            alert("tai khoan chua ki tu dac biet")
+            return false;
+        }
+        if (pass == "") {
+            alert("hãy nhập mật khẩu")
+            return false;
+        }
+        // else if (/^[a-zA-Z0-9]*$/.test(pass) == false) {
+        //     alert("pass chua ki tu dac biet")
+        //     return false;
+        // }
+        if (email == "") {
+            alert("hãy nhập email")
+            return false;
+        } else if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) == false) {
+            alert("email không đúng định dạng (abc@.com)")
+            return false
+        }
+        if (age == "") {
+            alert("hãy nhập tuổi")
+            return false
+        }
+        // alert("All datas are valid!, send it to the server!")
+        return true;
+    }
+</script>
+
+</html>

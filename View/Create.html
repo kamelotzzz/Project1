@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Create.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+
+<body style="background-color: #515151;">
+    <div style="margin-top:5%">
+        <!-- <form action="/Account/CreateAccount" method="POST" id="signupForm" name="signupForm" onsubmit='return validateForm()'> -->
+        <form>
+            <div style="height: auto;width: 300px;background-color:#171717; margin: auto;">
+                <div style="width: 90%; margin:auto;">
+                    <div style="text-align: center; border-bottom: grey;height: 50px;">
+                        <h3 style="color: white;margin-bottom:0px;padding-top: 20px;">Create Account</h3>
+                    </div>
+                    <hr>
+                    <div>
+                        <p>USERNAME</p>
+                        <input class="text123" id="iUser" type="text" name="username">
+                        <span class="text-error" style="display:none;color:red" id="user-error"></span>
+                    </div>
+                    <div>
+                        <p>PASSWORD</p>
+                        <input class="text123" id="iPass" type="password" name="password">
+                        <span class="text-error" style="display:none;color:red" id="pass-error"></span>
+                    </div>
+                    <div>
+                        <p>EMAIL</p>
+                        <input class="text123" id="iEmail" type="text" name="email">
+                        <span class="text-error" style="display:none;color:red" id="email-error"></span>
+                    </div>
+                    <div>
+                        <p>AGE</p>
+                        <input class="text123" id="iAge" type="number" name="age">
+                        <span class="text-error" style="display:none;color:red" id="age-error"></span>
+                    </div>
+                    <div>
+                        <p>SCHOOL</p>
+                        <input class="text123" id="iSchool" type="text" name="school">
+                        <span class="text-error" style="display:none;color:red" id="school-error"></span>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <button id="btnLogin" type="button" onclick="">CREATE</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    $("#btnLogin").click(function() {
+        var user = $('#iUser').val();
+        var pass = $('#iPass').val();
+        var email = $('#iEmail').val();
+        var age = $('#iAge').val();
+        var school = $('#iSchool').val();
+
+        if (validateForm(user, pass, email)) {
+            $.ajax({
+                url: '/Account/CreateAccount',
+                type: 'POST',
+                data: {
+                    username: user,
+                    password: pass,
+                    email: email,
+                    age: age,
+                    school: school
+                }
+            }).then(function(data) {
+                console.log(data);
+                if (data.error === false) {
+                    alert(data.message);
+                    window.location.href = '/Account/gd-login';
+                }
+                if (data.error) {
+                    alert(data.message)
+                }
+            })
+        }
+    })
+
+    function validateForm(user, pass, email) {
+        //chu + so + space
+        if (user == "") {
+            $("#user-error").css("display", "inline-block").html("hãy nhập tài khoản")
+            return false;
+        } else if (/^[a-zA-Z0-9]*$/.test(user) == false) {
+            $("#user-error").css("display", "inline-block").html("tai khoan chua ki tu dac biet")
+            return false;
+        } else {
+            $("#user-error").css("display", "none").html("")
+        }
+        if (pass == "") {
+            $("#pass-error").css("display", "inline-block").html("hãy nhập mật khẩu")
+            return false;
+        } else if (/^[a-zA-Z0-9]*$/.test(pass) == false) {
+            $("#pass-error").css("display", "inline-block").html("pass chua ki tu dac biet")
+            return false;
+        } else {
+            $("#pass-error").css("display", "none").html("")
+        }
+        if (email == "") {
+            $("#email-error").css("display", "inline-block").html("hãy nhập email")
+            return false;
+        } else if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) == false) {
+            $("#email-error").css("display", "inline-block").html("email không đúng định dạng (abc@.com)")
+            return false
+        } else {
+            $("#email-error").css("display", "none").html("")
+        }
+        // alert("All datas are valid!, send it to the server!")
+        return true;
+    }
+
+    function checkRegex(str) {
+        if (/^[a-zA-Z0-9 ]*$/.test(str) == false)
+            return false;
+    }
+
+    // function validateForm() {
+    //     // Get form via form name:
+    //     // var myForm = document.forms["signupForm"];
+    //     // var u = myForm["username"].value;
+    //     // var p = myForm["password"].value;
+    //     // var e = myForm["email"].value;
+    //     // ---------------------------------------
+    //     var u = $('#iUser').val();
+    //     var p = $('#iPass').val();
+    //     var e = $('#iEmail').val();
+    //     //chu + so + space
+    //     if (/^[a-zA-Z0-9 ]*$/.test(u) == false) {
+    //         alert('Username contains special characters.');
+    //         return false;
+    //     }
+    //     if (/^[a-zA-Z0-9]*$/.test(p) == false) {
+    //         alert('Password contains special characters.');
+    //         return false;
+    //     }
+    //     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e) == false) {
+    //         alert("You have entered an invalid email address!")
+    //         return false
+    //     }
+    //     if (u == "") {
+    //         alert("Please enter your Username");
+    //         myForm["username"].focus(); // Focus
+    //         return false;
+    //     }
+    //     if (p == "") {
+    //         alert("Please enter you Password");
+    //         myForm["password"].focus(); // Focus
+    //         return false;
+    //     }
+    //     if (e == "") {
+    //         alert("Please enter you email");
+    //         myForm["password"].focus(); // Focus
+    //         return false;
+    //     }
+    //     alert("All datas are valid!, send it to the server!")
+    //     return true;
+    // }
+</script>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <h1>day la trang html su dung ajax</h1>
+    <form action="">
+        <p>username: </p>
+        <input type="text" id="username" name="username">
+        <p>password: </p>
+        <input type="text" id="password" name="password">
+        <p>email: </p>
+        <input type="text" id="email" name="email">
+        <p>age: </p>
+        <input type="text" id="age" name="age">
+        <p>school: </p>
+        <input type="text" id="school"  name="school">
+        <button type="button" id="btn">
+            Đăng kí
+        </button>
+    </form>
+</body>
+<script>
+   $('#btn').click(function() {
+       var username = $('#username').val();
+       var password = $('#password').val();
+       var email = $('#email').val();
+       var age = $('#age').val();
+       var school = $('#school').val();
+       $.ajax({
+           url:'/Account/CreateAccount',
+           type:"POST",
+           data:{
+               username: username,
+               password: password,
+               email: email,
+               age: age,
+               school: school
+           }
+       }).then(function(data) {
+           alert(data)
+       })
+   })
+</script>
+</html>

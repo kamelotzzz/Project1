@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Create.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Forgot Password</title>
+</head>
+
+<body style="background-color: #515151;">
+    <div style="margin-top: 10%">
+        <form action="">
+            <div style="height: auto;width: 300px;background-color:#171717; margin: auto;">
+                <div style="width: 90%; margin:auto;">
+                    <div style="text-align: center; border-bottom: grey;height: 50px;">
+                        <h3 style="color: white;margin-bottom:0px;padding-top: 20px;">Forgot Password</h3>
+                    </div>
+                    <hr>
+                    <div>
+                        <p>USERNAME</p>
+                        <input class="text123" id="username" type="text" name="username">
+                    </div>
+                    <div>
+                        <p>Email</p>
+                        <input class="text123" id="email" type="text" name="email">
+                    </div>
+                    <div style="margin-top: 15px;">
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <button id="btnLogin" type="button">Send</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    $("#btnLogin").click(function() {
+        var username = $("#username").val();
+        var email = $("#email").val();
+        $.ajax({
+            url: "/Account/forgot-password",
+            type: "POST",
+            data: {
+                username: username,
+                email: email
+            }
+        }).then(function(result) {
+            console.log(result);
+            if (result.error) {
+                alert(result.message);
+            } else if (!result.error) {
+                alert(result.message)
+            }
+        })
+    })
+</script>
+
+</html>
